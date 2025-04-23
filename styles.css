@@ -1,0 +1,44 @@
+html,
+body {
+  height: 100vh;
+  background-color: aliceblue;
+}
+
+.header {
+  z-index: 800;
+  display: horizontal;
+  top: 0;
+  width: 100%;
+  color: red;
+  margin-bottom: 15px;
+}
+
+.footer {
+  position: fixed;
+  width: 100%;
+  padding: 15px;
+  bottom: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: rgb(228, 10, 137) (255, 0, 149);
+  background-color: rgb(206, 146, 146);
+}
+
+.nav-link {
+  margin-right: 20px;
+  padding: 8px;
+}
+
+.nav-link:hover {
+  background-color: rgba(0, 0, 255, 0.418);
+}
+
+a {
+  text-decoration: none;
+  color: rgb(116, 17, 173);
+}
+
+.welcome {
+  margin: 5%;
+  text-align: center;
+}

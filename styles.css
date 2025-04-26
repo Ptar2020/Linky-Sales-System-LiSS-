@@ -5,7 +5,8 @@ body {
 }
 
 .header {
-  z-index: 800;
+  position: sticky;
+  z-index: 1000;
   display: horizontal;
   top: 0;
   width: 100%;
@@ -16,12 +17,14 @@ body {
 .footer {
   position: fixed;
   width: 100%;
-  padding: 15px;
+  padding: 8px;
+
   bottom: 0;
+  border-radius: 5px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   color: rgb(228, 10, 137) (255, 0, 149);
-  background-color: rgb(206, 146, 146);
+  background-color: rgb(209, 18, 177);
 }
 
 .nav-link {
@@ -39,6 +42,10 @@ a {
 }
 
 .welcome {
-  margin: 5%;
+  margin: 5px;
   text-align: center;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
 }

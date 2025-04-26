@@ -1,27 +1,17 @@
-"use client";
 import React from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import LoginPage from "./login";
+import { Metadata } from "next";
 
-const Login = () => {
-  const router = useRouter();
-
-  const handleSubmit = () => {
-    alert("Login successful");
-    router.push("/");
+export const generateMetadata = (): Metadata => {
+  return {
+    title: "LiSS Login page",
+    description: "Please input your credentials to have access",
   };
+};
+const Login = () => {
   return (
     <div>
-      <label>Username</label>
-      <br />
-      <input placeholder="Username" type="text" /> <br />
-      <label>Password</label>
-      <br />
-      <input placeholder="Password" type="password" />
-      <br />
-      <button onClick={handleSubmit}>Submit</button>
-      <hr style={{ width: "50%" }} />
-      No account yet, <Link href="/register">Register here</Link>
+      <LoginPage />
     </div>
   );
 };

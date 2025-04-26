@@ -8,7 +8,7 @@ export const generateMetadata = () => {
 
 const About = () => {
   return (
-    <div>
+    <div  >
       <AboutData/>
     </div>
   );

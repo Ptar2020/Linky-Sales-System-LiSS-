@@ -16,10 +16,6 @@ const aboutSchema = new Schema(
       type: Date,
     },
     
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Other"],
-    },
   },
   { timestamps: true }
 );

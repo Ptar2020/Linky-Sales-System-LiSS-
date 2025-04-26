@@ -17,22 +17,22 @@ const userSchema = new Schema(
       required: true,
     },
     // New fields for Passport configuration
-    is_superuser: {
-      type: Boolean,
-      default: false,
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    last_login: {
-      type: Date,
-    },
-    
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Other"],
-    },
+    // is_superuser: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // is_active: {
+    //   type: Boolean,
+    //   default: true,
+    // },
+    // last_login: {
+    //   type: Date,
+    // },
+
+    // gender: {
+    //   type: String,
+    //   enum: ["Male", "Female", "Other"],
+    // },
   },
   { timestamps: true }
 );

@@ -3,11 +3,9 @@ import React, { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { showSuccessMsg, showErrorMsg } from "@/app/_utils/Alert";
 import { useRouter } from "next/navigation";
-// import { useAuth } from "@/app/_utils/AuthProvider";
 
 const RegisterPage = () => {
   const router = useRouter();
-  // const [user, setUser] = useAuth();
   const [added, setAdded] = useState(true);
   const [newUserData, setNewUserData] = useState({
     username: "",
@@ -57,7 +55,7 @@ const RegisterPage = () => {
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setNewUserData({ ...newUserData, username: e.target.value })
         }
-        placeholder="Your nusername"
+        placeholder="Your username"
       />
       <br />
       <p>Password</p>

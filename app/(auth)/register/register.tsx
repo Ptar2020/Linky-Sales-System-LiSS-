@@ -1,11 +1,14 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { showSuccessMsg, showErrorMsg } from "@/app/_utils/Alert";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/_utils/AuthProvider";
 
 const RegisterPage = () => {
+  const { user } = useAuth();
   const router = useRouter();
+  // const [businesses, setBusinesses] = useState();
   const [added, setAdded] = useState(true);
   const [newUserData, setNewUserData] = useState({
     username: "",
@@ -13,13 +16,23 @@ const RegisterPage = () => {
     password: "",
     password1: "",
     gender: "",
+    // business: "",
   });
+
   const body = {
     username: newUserData?.username,
     password: newUserData.password,
     email: newUserData.email,
     gender: newUserData.gender,
+    // business: newUserData.business,
+    business: user?.business._id,
   };
+  // Retrieve all buinesses
+  // const getBusinesses = async () => {
+  //   const response = await fetch("/api/business");
+  //   const data = await response.json();
+  //   setBusinesses(data);
+  // };
 
   const newUser = async () => {
     /**
@@ -46,8 +59,19 @@ const RegisterPage = () => {
     }
   };
 
+  useEffect(() => {
+    // getBusinesses();
+    if (!user?.is_admin || !user?.is_superuser) {
+      alert("Impossible operation. Contact admin");
+      router.push("/login");
+    }
+  }, [user]);
+
   return (
     <div>
+      <button style={{ marginRight: "34px" }} onClick={() => history.back()}>
+        Back
+      </button>
       <h3>Register</h3>
       <p>Username</p>
       <input
@@ -91,6 +115,19 @@ const RegisterPage = () => {
         <option value={"Other"}>Other</option>
       </select>
       <br />
+      {/* <select
+        value={newUserData.business}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+          setNewUserData({ ...newUserData, business: e.target.value })
+        }
+      >
+        <option>Select Business</option>
+        {businesses?.map((business) => (
+          <option key={business._id} value={business._id}>
+            {business.name}
+          </option>
+        ))}
+      </select> */}
       <br />
 
       <button onClick={newUser} disabled={!added}>

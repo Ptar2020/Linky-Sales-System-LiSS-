@@ -1,16 +1,18 @@
-import React from "react";
-import { Metadata } from "next";
+import React, { useState, useEffect } from "react";
 import AllSales from "./allSales";
+import { Metadata } from "next";
 
-export const generateMetadata = (): Metadata => {
-  return {
-    title: "All sales data",
-    description: "Sales records for all the sellers/users",
-  };
+export const generateMetadata = () => {
+  return { title: "All business sales" };
 };
 
+// All business sales
 const Sales = () => {
-  return <AllSales />;
+  return (
+    <div>
+      <AllSales />
+    </div>
+  );
 };
 
 export default Sales;

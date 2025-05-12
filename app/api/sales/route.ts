@@ -1,24 +1,44 @@
 import { dbConnect } from "@/app/database/db";
+import { Sale, Product } from "@/app/models";
+import { ProductInterface } from "@/app/types";
 import { NextRequest, NextResponse } from "next/server";
+import { middleware } from "../user/authVerify";
 
+// Create a sale
+export async function POST(request: NextRequest) {
+  try {
+    const saleData = await request.json();
+    const authVerify = await middleware(request);
+    if (!authVerify) {
+      return NextResponse.json({ msg: "Unauthorized access" });
+    }
+    await dbConnect();
+    const availableState = await Product.findOne({
+      _id: saleData.product,
+    });
+    availableState.available = false;
+    await availableState.save();
+    await new Sale(saleData).save();
+    return NextResponse.json({ success: "Sold!" });
+  } catch (error) {
+    return NextResponse.json({ msg: error.message });
+  }
+}
+
+// This is to retrieve sales by all sellers of a business
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { _id: string } }
 ) {
-  const allSales = [
-    { id: 1, name: "Ptar", amount: 36000 },
-    { id: 2, name: "John", amount: 6000 },
-    // { id: 1, name: "Ptar", amount: 65000 },
-    // { id: 3, name: "Eve", amount: 65000 },
-    // { id: 4, name: "Joy", amount: 65000 },
-    // { id: 4, name: "Joy", amount: 5000 },
-    // { id: 3, name: "Eve", amount: 65000 },
-    // { id: 2, name: "John", amount: 54000 },
-    // { id: 2, name: "John", amount: 65000 },
-    // { id: 2, name: "John", amount: 5000 },
-    // { id: 3, name: "Eve", amount: 23400 },
-    // { id: 4, name: "Joy", amount: 5000 },
-  ];
-
-  return new Response(JSON.stringify(allSales));
+  try {
+    const authVerify = await middleware(request);
+    if (!authVerify) {
+      return NextResponse.json({ msg: "Unauthorized access" });
+    }
+    await dbConnect();
+    const businessSales = await Sale.find();
+    return NextResponse.json(businessSales);
+  } catch (error) {
+    return NextResponse.json({ msg: error.message });
+  }
 }

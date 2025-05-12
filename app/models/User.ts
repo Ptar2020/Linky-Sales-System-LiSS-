@@ -16,23 +16,30 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
-    // New fields for Passport configuration
-    // is_superuser: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // is_active: {
-    //   type: Boolean,
-    //   default: true,
-    // },
-    // last_login: {
-    //   type: Date,
-    // },
-
-    // gender: {
-    //   type: String,
-    //   enum: ["Male", "Female", "Other"],
-    // },
+    is_superuser: {
+      type: Boolean,
+      default: false,
+    },
+    is_active: {
+      type: Boolean,
+      default: true,
+    },
+    is_admin: {
+      type: Boolean,
+      default: false,
+    },
+    last_login: {
+      type: Date,
+    },
+    business: {
+      type: Schema.Types.ObjectId,
+      ref: "Business",
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+    },
   },
   { timestamps: true }
 );

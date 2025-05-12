@@ -2,6 +2,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 //This, initially, was named middleware.ts but was changed to avoid errors at deployment
 // Utility function to extract cookies from the request
+
 const extractCookies = (): Record<string, string> | null => {
   const allCookies = cookies().getAll();
   if (!allCookies.length) return null;
@@ -39,9 +40,10 @@ export async function middleware(req: Request): Promise<DecodedToken | null> {
 
     // Verify the refresh token and extract the user data
     const decodedData = jwt.verify(refreshToken, SECRET_KEY) as DecodedToken;
-
+    // console.log("DecodedToken");
+    // console.log(decodedData);
     // Return the decoded user data
-    return decodedData;    
+    return decodedData;
   } catch (error: unknown) {
     // Handle error safely
     const errorMessage =

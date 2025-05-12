@@ -1,28 +1,21 @@
+import { dbConnect } from "@/app/database/db";
+import { Sale, Product } from "@/app/models";
 import { NextRequest, NextResponse } from "next/server";
+import { middleware } from "../../user/authVerify";
+
+// Get sales per user
 export async function GET(
-  req: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const allSalesData = [
-    { id: 1, name: "Ptar*", total: 36000 },
-    { id: 2, name: "John*", total: 6000 },
-    { id: 1, name: "Ptar*", total: 65000 },
-    { id: 3, name: "Eve", total: 65000 },
-    { id: 4, name: "Joy", total: 65000 },
-    { id: 4, name: "Joy", total: 5000 },
-    { id: 3, name: "Eve", total: 65000 },
-    { id: 2, name: "John*", total: 54000 },
-    { id: 2, name: "John*", total: 65000 },
-    { id: 2, name: "John*", total: 5000 },
-    { id: 3, name: "Eve", total: 23400 },
-    { id: 4, name: "Joy", total: 5000 },
-  ];
-  const user = allSalesData?.find(
-    (sale) => sale.id === parseInt(params.id)
-  ).name;//Finds one
-  const salesData = allSalesData.filter(
-    (item) => item.id === parseInt(params.id)
-  );//Finds an array
- 
-  return new Response(JSON.stringify({ user, salesData }));
+  const authVerify = await middleware(request);
+  if (!authVerify) {
+    return NextResponse.json({ msg: "Unauthorized response" });
+  }
+  await dbConnect();
+  const allSalesData = await Sale.find({
+    seller: params.id,
+  }).populate("product");
+
+  return NextResponse.json(allSalesData);
 }

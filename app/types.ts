@@ -1,38 +1,35 @@
 // Are to be imported wherever needed for use.
-export interface Item {
+
+export interface BusinessInterface {
   _id: string;
   name: string;
-  user: string;
-  completionDate: string;
-  startDate: string;
-  amount: string;
+  subscribed: boolean;
 }
 
-export type UserParams = {
-  //Used in metaData for user/_id
-  //For defining the property you need from the dynamic route
-  params: {
-    _id: string;
-  };
-};
-
-export interface UserData {
-  //api/users/itemData
-  //api/users/userData
+export interface ProductInterface {
   _id: string;
-  username: string;
-  email: string;
-  is_active: boolean;
-  is_superuser: boolean;
-  gender: string;
+  name: string;
+  price: number;
+  description?: string;
+  sale_date?: Date;
+  available: boolean;
+  sold_by: string | UserInterface; // Allow string (ID) or UserData (populated)
+  business: string | BusinessInterface; // Allow string (ID) or Business (populated)
+  added_by: string | UserInterface; // Allow string (ID) or UserData (populated)
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export type User = {
-  //utils/AuthProvider
+export type UserInterface = {
   _id: string;
   username: string;
   email: string;
   is_superuser: boolean;
   is_active: boolean;
+  is_admin: boolean;
   gender: string;
+  business: string | BusinessInterface; // Allow string (ID) or Business object (populated)
+  createdAt: Date;
+  updatedAt: Date;
+  last_login: Date;
 } | null;

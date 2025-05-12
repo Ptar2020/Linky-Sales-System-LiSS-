@@ -1,19 +1,21 @@
 export const dynamic = "force-dynamic";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { middleware } from "../authVerify";
+import { NextRequest, NextResponse } from "next/server";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 // Define the POST route handler for accessToken
-export async function POST(req, res) {
+export async function POST(req: NextRequest) {
   try {
-    const data = await middleware();
-
+    const data = await middleware(req);
+    console.log(data);
     if (data) {
       const userInfo = {
         username: data.username,
         _id: data._id,
         is_superuser: data.is_superuser,
+        business: data.business,
+        is_admin: data.is_admin,
       };
 
       const accessToken = jwt.sign(
@@ -36,28 +38,42 @@ export async function POST(req, res) {
         "X-XSS-Protection": "1; mode=block",
       };
       // Send the new access token back to the client
-      return new Response(JSON.stringify({ accessToken, userInfo }), {
-        headers: {
-          "Set-Cookie": `accessToken=${accessToken}; Path=/; Max-Age=${
-            60 * 10
-          };httpOnly; ${
-            process.env.NODE_ENV === "production" ? "Secure;" : ""
-          } `,
-          "Content-Type": "application/json",
-          ...securityHeaders,
-        },
-      });
+      return NextResponse.json(
+        { accessToken, userInfo },
+        {
+          headers: {
+            "Set-Cookie": `accessToken=${accessToken}; Path=/; Max-Age=${
+              60 * 10
+            };httpOnly; ${
+              process.env.NODE_ENV === "production" ? "Secure;" : ""
+            } `,
+            "Content-Type": "application/json",
+            ...securityHeaders,
+          },
+        }
+      );
     } else {
       console.log("no user");
-      return new Response(JSON.stringify({ userInfo: null }), {
-        status: 200,
-      });
+      return NextResponse.json(
+        { userInfo: null },
+        {
+          status: 200,
+        }
+      );
     }
   } catch (error) {
     console.error("Error refreshing token:", error);
-    return new Response(JSON.stringify({ msg: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return (
+      NextResponse.json({
+        msg:
+          error instanceof Error
+            ? error.message
+            : "Unexpected Error experienced",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }

@@ -13,8 +13,21 @@ const productSchema = new Schema(
     description: {
       type: String,
     },
-    sale_date: {
-      type: Date,
+
+    available: {
+      type: Boolean,
+      default: true,
+    },
+
+    business: {
+      type: Schema.Types.ObjectId,
+      ref: "Business",
+      required: true,
+    },
+    added_by: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true }

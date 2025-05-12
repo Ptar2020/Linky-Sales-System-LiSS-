@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import "../models/index";
 dotenv.config();
 
 const connectURI = process.env.connectURI;

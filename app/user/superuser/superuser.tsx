@@ -9,14 +9,8 @@ import { UserInterface } from "@/app/types";
 const SuperuserPage = () => {
   const router = useRouter();
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<UserInterface[]>([]);
-  // const [users, setUsers] = useState();
-
-  // Define the API response type
-  // interface ApiResponse {
-  //   msg?: string;
-  //   data?: UserInterface[];
-  // }
 
   const getAllUsers = async () =>
     // setUsers: React.Dispatch<React.SetStateAction<UserInterface[]>>
@@ -37,6 +31,8 @@ const SuperuserPage = () => {
         }
       } catch (error) {
         showErrorMsg(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -54,8 +50,7 @@ const SuperuserPage = () => {
   //   Check if user is superuser
   useEffect(() => {
     if (!user?.is_superuser || !user?.is_admin) {
-      alert("Unauthorized access");
-      router.push("/");
+      // router.push("/");
     } else {
       getAllUsers();
     }
@@ -66,7 +61,9 @@ const SuperuserPage = () => {
 
   return (
     <div>
-      {user?.is_admin ? (
+      {loading && <p>Please wait...</p>}
+      
+      {user?.is_admin && (
         <>
           <button
             style={{ marginRight: "34px" }}
@@ -135,8 +132,6 @@ const SuperuserPage = () => {
             </tbody>
           </table>
         </>
-      ) : (
-        <p>Unauthorized access</p>
       )}
     </div>
   );

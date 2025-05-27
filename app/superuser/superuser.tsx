@@ -69,24 +69,6 @@ const SuperuserPage = () => {
 
   return (
     <main className="superuser">
-      {/* <header className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h2 className="text-2xl font-bold text-charcoal">User Management</h2>
-        <nav className="flex flex-wrap gap-3">
-          <button
-            onClick={() => router.back()}
-            disabled={loading || !!deletingId}
-          >
-            Back
-          </button>
-          <Link href="/user/superuser/business">Businesses</Link>
-          {(user?.is_admin || user?.is_superuser) && (
-            <Link href="/product/new">New Product</Link>
-          )}
-          <Link href="/sales">All Sales</Link>
-          <Link href="/register">Register User</Link>
-        </nav>
-      </header> */}
-
       <section>
         <div className="overflow-x-auto ">
           <table className="w-full border-collapse bg-white rounded-lg">

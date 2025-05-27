@@ -12,10 +12,10 @@ const About = () => {
     description: "",
   });
 
-  const saveAbout = async () => {
+  const newAbout = async () => {
     const response = await fetch("/api/about", {
       method: "POST",
-      headers: { "Content-Type": "applicaton/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(about),
     });
     const data = await response.json();
@@ -46,7 +46,7 @@ const About = () => {
         }
       ></textarea>
       <hr />
-      <button onClick={saveAbout}>Submit</button>
+      <button onClick={() => newAbout()}>Submit</button>
     </div>
   );
 };

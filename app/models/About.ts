@@ -1,5 +1,5 @@
-import { models, model, Schema } from "mongoose";
-
+// import { models, model, Schema } from "mongoose";
+import mongoose, { models, model, Schema } from "mongoose";
 const aboutSchema = new Schema(
   {
     title: {
@@ -11,11 +11,10 @@ const aboutSchema = new Schema(
       type: String,
       required: true,
     },
-    
+
     last_edited: {
       type: Date,
     },
-    
   },
   { timestamps: true }
 );

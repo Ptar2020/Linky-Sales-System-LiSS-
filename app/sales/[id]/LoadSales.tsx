@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 const LoadSales = () => {
   const { user } = useAuth();
   const [userSalesData, setUserSalesData] = useState<SaleInterface[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);``
 
   const getSales = useCallback(async () => {
     const response = await fetch(`/api/sales/${user?._id}`);

@@ -21,9 +21,10 @@ export async function DELETE(
     await dbConnect();
 
     // Find the business to delete
-    const businessToDelete: BusinessInterface | null = await Business.findById(
-      params._id
-    );
+    const businessToDelete = await Business.findById(params._id);
+    // const businessToDelete: BusinessInterface | null = await Business.findById(
+    //   params._id
+    // );
     console.log(businessToDelete);
     if (!businessToDelete) {
       return NextResponse.json(

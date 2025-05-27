@@ -21,7 +21,9 @@ export async function POST(request: NextRequest) {
     await new Sale(saleData).save();
     return NextResponse.json({ success: "Sold!" });
   } catch (error) {
-    return NextResponse.json({ msg: error.message });
+    return NextResponse.json({
+      msg: error instanceof Error ? error.message : "Error experienced",
+    });
   }
 }
 
@@ -36,9 +38,11 @@ export async function GET(
       return NextResponse.json({ msg: "Unauthorized access" });
     }
     await dbConnect();
-    const businessSales = await Sale.find();
+    const businessSales = await Sale.find().populate("seller");
     return NextResponse.json(businessSales);
   } catch (error) {
-    return NextResponse.json({ msg: error.message });
+    return NextResponse.json({
+      msg: error instanceof Error ? error.message : "Error experienced",
+    });
   }
 }

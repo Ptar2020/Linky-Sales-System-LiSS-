@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
     await new Product(productData).save();
     return NextResponse.json({ success: "Successful" });
   } catch (error) {
-    return NextResponse.json({ msg: error.message });
+    return NextResponse.json({
+      msg: error instanceof Error ? error.message : "Error experienced",
+    });
   }
 }

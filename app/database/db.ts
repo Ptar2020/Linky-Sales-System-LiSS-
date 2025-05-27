@@ -7,6 +7,9 @@ const connectURI = process.env.connectURI;
 let isConnected = false;
 
 const dbConnect = async () => {
+  if (!connectURI) {
+    throw new Error("ConnectURI undefined");
+  }
   mongoose.set("strictQuery", true);
   if (isConnected) {
     console.log("Database already connected");
@@ -18,7 +21,10 @@ const dbConnect = async () => {
 
     console.log("Connected to Database");
   } catch (error) {
-    console.error("DB connection error :", error.message);
+    console.error(
+      "DB connection error :",
+      error instanceof Error ? error.message : "Error experienced"
+    );
   }
 };
 

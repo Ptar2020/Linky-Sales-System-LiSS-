@@ -2,6 +2,13 @@ html,
 body {
   height: 100vh;
   background-color: aliceblue;
+  margin: auto;
+}
+html > body > div {
+  padding-right: 20px;
+  padding-left: 20px;
+  width: 90%;
+  margin: auto;
 }
 
 .header {
@@ -18,11 +25,11 @@ body {
   position: fixed;
   width: 100%;
   padding: 8px;
-
+  margin: auto;
   bottom: 0;
   border-radius: 5px;
-  margin-top: 10px;
-  margin-bottom: 3px;
+  /* margin-top: 10px;
+  margin-bottom: 3px; */
   color: rgb(228, 10, 137) (255, 0, 149);
   background-color: rgb(209, 18, 177);
 }
@@ -39,6 +46,8 @@ body {
 a {
   text-decoration: none;
   color: rgb(116, 17, 173);
+  padding-right: 5px;
+  margin: 5px;
 }
 
 .welcome {
@@ -48,4 +57,100 @@ a {
   justify-content: center;
   align-items: center;
   height: 90%;
+}
+.superuser {
+  text-align: center;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  /* width: 100%; */
+  /* margin: auto; */
+  justify-content: center;
+  align-items: center;
+}
+button {
+  color: white;
+  background-color: rgb(71, 33, 19);
+  padding: 5px;
+  margin: 2px;
+  border-radius: 8px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #c7b4b4;
+}
+
+.register {
+  /* For user registrattion */
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  font-size: 25px;
+}
+.register > form > div > input {
+  font-size: 15px;
+}
+
+.login {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  font-size: 25px;
+}
+
+.login > input {
+  font-size: 15px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.new-product {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+.user-edit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+}
+
+/* .user-edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 60%;
+} */
+.user-edit > :checked {
+  width: 32px;
+  height: 40px;
+  /* width: 105%; */
+}
+
+.user-edit > button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+}
+.business {
+  width: 85%;
+  margin: auto;
+  text-align: center;
+}
+
+.about > input {
+  margin-bottom: 10px;
 }

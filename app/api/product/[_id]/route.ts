@@ -17,6 +17,8 @@ export async function GET(
     const products = await Product.find({ business: params?._id });
     return NextResponse.json(products);
   } catch (error) {
-    return NextResponse.json({ msg: error.message });
+    return NextResponse.json({
+      msg: error instanceof Error ? error.message : "Error experienced",
+    });
   }
 }

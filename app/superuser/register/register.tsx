@@ -23,29 +23,29 @@ const RegisterPage = () => {
   useEffect(() => {
     if (!user?.is_admin && !user?.is_superuser) {
       showErrorMsg("Restricted operation. Contact admin.");
-      router.push("/login");
+      router.push("/");
     }
   }, [router, user]);
 
   // Form validation
   const isDisabled =
     loading ||
-    !newUserData.username?.trim() ||
-    !newUserData.email?.trim() ||
-    !newUserData.password ||
-    newUserData.password !== passwordConfirm ||
-    !newUserData.gender ||
+    !newUserData?.username?.trim() ||
+    !newUserData?.email?.trim() ||
+    !newUserData?.password ||
+    newUserData?.password !== passwordConfirm ||
+    !newUserData?.gender ||
     !user?.business?._id;
 
   // Construct body with null checks
   const body =
     user?.business?._id && user?._id
       ? {
-          username: newUserData.username,
-          email: newUserData.email,
-          password: newUserData.password,
-          gender: newUserData.gender,
-          business: user.business._id,
+          username: newUserData?.username,
+          email: newUserData?.email,
+          password: newUserData?.password,
+          gender: newUserData?.gender,
+          business: user?.business._id,
         }
       : null;
 
@@ -84,28 +84,20 @@ const RegisterPage = () => {
   }
 
   return (
-    <main className="register-container">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="back-button"
-        disabled={loading}
-      >
-        Back
-      </button>
-      <h2>Register New User</h2>
+    <main className="register">
+      <h2> NEW USER</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           newUser();
         }}
       >
-        <div className="form-group">
+        <div>
           <label htmlFor="username">Username</label>
           <input
             id="username"
             type="text"
-            value={newUserData.username || ""}
+            value={newUserData?.username || ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setNewUserData({ ...newUserData, username: e.target.value })
             }
@@ -114,12 +106,12 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
-            value={newUserData.email || ""}
+            value={newUserData?.email || ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setNewUserData({ ...newUserData, email: e.target.value })
             }
@@ -128,12 +120,12 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
-            value={newUserData.password || ""}
+            value={newUserData?.password || ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setNewUserData({ ...newUserData, password: e.target.value })
             }
@@ -143,7 +135,7 @@ const RegisterPage = () => {
             minLength={8}
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="passwordConfirm">Confirm Password</label>
           <input
             id="passwordConfirm"
@@ -158,11 +150,11 @@ const RegisterPage = () => {
             minLength={8}
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="gender">Gender</label>
           <select
             id="gender"
-            value={newUserData.gender || ""}
+            value={newUserData?.gender || ""}
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setNewUserData({ ...newUserData, gender: e.target.value })
             }
@@ -189,54 +181,6 @@ const RegisterPage = () => {
       <p>
         Already have an account? <Link href="/login">Login</Link>
       </p>
-
-      <style jsx>{`
-        .register-container {
-          max-width: 500px;
-          margin: 20px auto;
-          padding: 20px;
-        }
-        .form-group {
-          margin-bottom: 15px;
-        }
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-        input,
-        select {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-        .back-button,
-        .submit-button {
-          padding: 10px 20px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        .back-button {
-          background-color: #6c757d;
-          color: white;
-          margin-bottom: 20px;
-        }
-        .submit-button {
-          background-color: #007bff;
-          color: white;
-        }
-        .submit-button:disabled,
-        .back-button:disabled {
-          background-color: #cccccc;
-          cursor: not-allowed;
-        }
-        p {
-          margin-top: 15px;
-          text-align: center;
-        }
-      `}</style>
     </main>
   );
 };

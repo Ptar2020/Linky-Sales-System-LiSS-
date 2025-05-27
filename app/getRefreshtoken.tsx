@@ -33,7 +33,7 @@ export default function Main() {
         router.push("/login");
       }
     } catch (error) {
-      showErrorMsg(error.message);
+      showErrorMsg(error instanceof Error ? error.message : "Error occurred");
     }
   }, [router, setUser]);
 

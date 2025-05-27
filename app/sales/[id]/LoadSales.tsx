@@ -1,16 +1,16 @@
 "use client";
 import { useAuth } from "@/app/_utils/AuthProvider";
+import { SaleInterface } from "@/app/types";
 import React, { useCallback, useEffect, useState } from "react";
 
 const LoadSales = () => {
   const { user } = useAuth();
-  const [userSalesData, setUserSalesData] = useState([]);
+  const [userSalesData, setUserSalesData] = useState<SaleInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getSales = useCallback(async () => {
     const response = await fetch(`/api/sales/${user?._id}`);
-    const data = await response.json();
-    console.log(data);
+    const data: SaleInterface[] = await response.json();
     setUserSalesData(data);
     setLoading(false);
   }, [user?._id]);
@@ -31,12 +31,13 @@ const LoadSales = () => {
       ) : (
         <>
           <p>Sales by {user?.username} </p>
-          {userSalesData?.map((sale, id) => (
-            <p key={sale.id}>
-              {id + 1} - {sale?.product?.name} -{" "}
-              {sale?.sale_date.toLocaleString()} - {sale?.product?.price}
-            </p>
-          ))}
+          {userSalesData &&
+            userSalesData?.map((sale) => (
+              <p key={sale._id}>
+                {sale?.product?.name} - {sale?.sale_date.toLocaleString()} -{" "}
+                {sale?.product?.price}
+              </p>
+            ))}
         </>
       )}
     </div>

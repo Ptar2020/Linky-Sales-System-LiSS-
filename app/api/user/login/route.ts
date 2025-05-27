@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import User from "@/app/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserInterface } from "@/app/types";
 
 // User login
 export async function POST(
@@ -12,7 +11,10 @@ export async function POST(
 ) {
   try {
     await dbConnect();
-    const SECRET_KEY = process.env.SECRET_KEY;
+    const SECRET_KEY = process.env.SECRET_KEY; // Ensure SECRET_KEY is defined
+    if (!SECRET_KEY) {
+      throw new Error("SECRET_KEY variable is not defined");
+    }
 
     // Handle request body parsing
     const { username, password } = await request.json();

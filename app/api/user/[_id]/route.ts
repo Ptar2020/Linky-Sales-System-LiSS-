@@ -135,7 +135,7 @@ export async function PATCH(
     await dbConnect();
 
     // Find the item to edit by ID
-    const userToEdit: UserInterface = await User.findById(params._id);
+    const userToEdit = await User.findById(params._id);
     if (!userToEdit) {
       return NextResponse.json({ msg: "User does not exist" }, { status: 404 });
     }
@@ -217,7 +217,7 @@ export async function DELETE(
     await dbConnect();
 
     // Find the item to delete by ID
-    const userToDelete: UserInterface = await User.findById(params._id);
+    const userToDelete = await User.findById(params._id);
     if (!userToDelete) {
       return NextResponse.json({ msg: "User does not exist" }, { status: 404 });
     }

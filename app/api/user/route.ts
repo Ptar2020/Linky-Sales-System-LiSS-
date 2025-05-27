@@ -13,14 +13,15 @@ export async function GET(request: NextRequest) {
     }
     await dbConnect();
 
-    const users: UserInterface[] = await User.find()
+    // const users: UserInterface[] = await User.find()
+    const users = await User.find()
       .select("-password ")
       .populate("business")
       .lean();
     return NextResponse.json(users);
   } catch (error) {
     return NextResponse.json({
-      msg: error.message,
+      msg: error instanceof Error ? error.message : "Error experienced",
     });
   }
 }

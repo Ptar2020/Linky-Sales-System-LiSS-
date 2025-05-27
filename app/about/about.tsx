@@ -2,15 +2,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "../_utils/AuthProvider";
+import { AboutInterface } from "../types";
 
 const AboutData = () => {
-  const [about, setAbout] = useState();
+  const [about, setAbout] = useState<AboutInterface[]>([]);
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
 
   const loadAbout = async () => {
     const response = await fetch("/api/about");
     const data = await response.json();
+
     setAbout(data);
     setLoading(false);
   };
@@ -32,12 +34,12 @@ const AboutData = () => {
       ) : (
         <>
           <Link href="/">Back</Link>
-          {about?.map((about) => (
+          {about.map((about) => (
             <>
               <h2>
-                {about.id} - {about.title}
+                {about?._id} - {about?.title}
               </h2>
-              <h5>{about.description}</h5>
+              <h5>{about?.description}</h5>
             </>
           ))}
         </>

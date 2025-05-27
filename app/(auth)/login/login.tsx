@@ -30,7 +30,9 @@ const LoginPage = () => {
         alert("Erro logging in");
       }
     } catch (error) {
-      showErrorMsg(error.msg);
+      showErrorMsg(
+        error instanceof Error ? error.message : "Error experienced"
+      );
     } finally {
       setLogging(false);
     }
@@ -38,12 +40,13 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user) {
-      router.push(`/sales/${user?.business._id}`);
+      // router.push(`/sales/${user?.business?._id}`);
+      router.push(`/sales`);
     }
   }, [user, router]);
 
   return (
-    <div>
+    <div className="login">
       <>
         <button style={{ marginRight: "34px" }} onClick={() => history.back()}>
           Back

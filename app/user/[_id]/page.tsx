@@ -3,12 +3,16 @@ import { showErrorMsg, showSuccessMsg } from "@/app/_utils/Alert";
 import { useAuth } from "@/app/_utils/AuthProvider";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { UserInterface } from "@/app/types";
+import {
+  BusinessInterface,
+  EditUserInterface,
+  UserInterface,
+} from "@/app/types";
 
-const EditUser = ({ params }) => {
+const EditUser = ({ params }: EditUserInterface) => {
   const { user } = useAuth();
   const router = useRouter();
-  const [businesses, setBusinesses] = useState();
+  const [businesses, setBusinesses] = useState<BusinessInterface[]>([]);
   const [userData, setUserData] = useState({
     _id: "",
     username: "",
@@ -24,7 +28,13 @@ const EditUser = ({ params }) => {
     const response = await fetch(`/api/user/${params._id}`);
     const data = await response.json();
     setUserData(data);
-  }, [params?._id]);
+  }, [params._id]);
+
+  // const getUserData = useCallback(async () => {
+  //   const response = await fetch(`/api/user/${params._id}`);
+  //   const data: UserInterface = await response.json();
+  //   setUserData(data);
+  // }, [params?._id]);
 
   const handleUserEdit = async () => {
     const response = await fetch(`/api/user/${params._id}`, {
@@ -40,7 +50,7 @@ const EditUser = ({ params }) => {
 
   const getBusinesses = async () => {
     const response = await fetch("/api/business");
-    const data = await response.json();
+    const data: BusinessInterface[] = await response.json();
     setBusinesses(data);
   };
   useEffect(() => {
@@ -49,7 +59,7 @@ const EditUser = ({ params }) => {
   }, [getUserData]);
 
   return (
-    <div>
+    <div className={"user-edit  "}>
       {user?.is_superuser && (
         <>
           Username
@@ -101,7 +111,7 @@ const EditUser = ({ params }) => {
               </option>
             ))}
           </select>
-          <br />
+          <hr />
           <label>
             Active
             <input
@@ -112,7 +122,7 @@ const EditUser = ({ params }) => {
               }
             />
           </label>
-          <br />
+          <hr />
           <label>
             Admin
             <input
@@ -123,7 +133,7 @@ const EditUser = ({ params }) => {
               }
             />
           </label>
-          <br />
+          <hr />
           <label>
             Superuser
             <input
@@ -135,8 +145,8 @@ const EditUser = ({ params }) => {
             />
           </label>
           <br />
-          <br />
-          <button onClick={handleUserEdit}>Save Changes</button>
+          <hr />
+          <button onClick={() => handleUserEdit()}>Save Changes</button>
         </>
       )}
     </div>

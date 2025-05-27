@@ -27,9 +27,7 @@ const NewProduct = () => {
 
   // Validate form
   const isDisabled =
-    !productDetails ||
-    !productDetails.name?.trim() ||
-    productDetails.price <= 0;
+    !productDetails || !productDetails.name?.trim() || !productDetails.price;
 
   // Construct body with null checks
   const body =
@@ -77,15 +75,7 @@ const NewProduct = () => {
   }
 
   return (
-    <main className="new-product-container">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="back-button"
-        disabled={loading}
-      >
-        Back
-      </button>
+    <main className="new-product">
       <h2>Create New Product</h2>
       <form
         onSubmit={(e) => {
@@ -93,7 +83,7 @@ const NewProduct = () => {
           addProduct();
         }}
       >
-        <div className="form-group">
+        <div>
           <label htmlFor="name">Name</label>
           <input
             id="name"
@@ -106,7 +96,7 @@ const NewProduct = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="price">Price</label>
           <input
             id="price"
@@ -124,7 +114,7 @@ const NewProduct = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div>
           <label htmlFor="description">Description</label>
           <textarea
             id="description"
@@ -147,54 +137,6 @@ const NewProduct = () => {
           {loading ? "Saving..." : "Save Details"}
         </button>
       </form>
-
-      <style jsx>{`
-        .new-product-container {
-          max-width: 500px;
-          margin: 20px auto;
-          padding: 20px;
-        }
-        .form-group {
-          margin-bottom: 15px;
-        }
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-        input,
-        textarea {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-        textarea {
-          min-height: 100px;
-          resize: vertical;
-        }
-        .back-button,
-        .save-button {
-          padding: 10px 20px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        .back-button {
-          background-color: #6c757d;
-          color: white;
-          margin-bottom: 20px;
-        }
-        .save-button {
-          background-color: #007bff;
-          color: white;
-        }
-        .save-button:disabled,
-        .back-button:disabled {
-          background-color: #cccccc;
-          cursor: not-allowed;
-        }
-      `}</style>
     </main>
   );
 };

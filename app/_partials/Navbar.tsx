@@ -53,7 +53,7 @@ const Navbar = () => {
       <></>
       {/* )} */}
       {user?.is_superuser && (
-        <Link className="nav-link" href={"/user/superuser"}>
+        <Link className="nav-link" href={"/superuser"}>
           Superuser
         </Link>
       )}

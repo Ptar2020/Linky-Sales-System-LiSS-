@@ -41,7 +41,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (user) {
       // router.push(`/sales/${user?.business?._id}`);
-      router.push(`/sales`);
+      router.push(`/sales/${user?._id}`);
     }
   }, [user, router]);
 

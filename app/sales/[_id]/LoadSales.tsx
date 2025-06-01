@@ -6,7 +6,8 @@ import React, { useCallback, useEffect, useState } from "react";
 const LoadSales = () => {
   const { user } = useAuth();
   const [userSalesData, setUserSalesData] = useState<SaleInterface[]>([]);
-  const [loading, setLoading] = useState(true);``
+  const [loading, setLoading] = useState(true);
+  ``;
 
   const getSales = useCallback(async () => {
     const response = await fetch(`/api/sales/${user?._id}`);
@@ -30,14 +31,22 @@ const LoadSales = () => {
         <p>Data loading...</p>
       ) : (
         <>
-          <p>Sales by {user?.username} </p>
-          {userSalesData &&
-            userSalesData?.map((sale) => (
-              <p key={sale._id}>
-                {sale?.product?.name} - {sale?.sale_date.toLocaleString()} -{" "}
-                {sale?.product?.price}
-              </p>
-            ))}
+          <h3>MY SALES RECORDS </h3>
+          <table>
+            <thead>
+              <th>Item</th> <th>Price</th> <th>Sale date</th>
+            </thead>
+            <tbody>
+              {userSalesData &&
+                userSalesData?.map((sale) => (
+                  <tr key={sale._id}>
+                    <td> {sale?.product?.name}</td>{" "}
+                    <td>{sale?.product?.price}</td>
+                    <td> {sale?.sale_date.toLocaleString()}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </>
       )}
     </div>

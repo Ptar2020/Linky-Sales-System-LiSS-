@@ -4,11 +4,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/app/_utils/AuthProvider";
 import { showErrorMsg, showSuccessMsg } from "@/app/_utils/Alert";
 import { ProductInterface } from "@/app/types";
+import NewProduct from "./newProduct";
+import swal from "sweetalert";
 
 const BusinessProducts: React.FC = () => {
   const { user } = useAuth();
   const [products, setProducts] = useState<ProductInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showNewProduct, setShowNewProduct] = useState(false);
 
   // Fetch all products for the business
   const getBusinessProducts = useCallback(async () => {
@@ -58,12 +61,45 @@ const BusinessProducts: React.FC = () => {
         throw new Error("Failed to record sale");
       }
       const data = await response.json();
-      showSuccessMsg(data.success || "Product sold successfully");
+      showSuccessMsg(data.success);
       await getBusinessProducts(); // Refresh products after selling
     } catch (err) {
-      console.error("Error selling product:", err);
       showErrorMsg(err instanceof Error ? err.message : "Error recording sale");
     }
+  };
+
+  const editProduct = async (_id: string) => {
+    const response = await fetch(`/api/product/${_id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    const data = await response.json();
+    getBusinessProducts();
+    showSuccessMsg(data.success);
+  };
+
+  const deleteProduct = async (_id: string) => {
+    const confirm = await swal({
+      buttons: ["Cancel", "Ok"],
+      title: "Sure to delete product?",
+      icon: "warning",
+      dangerMode: true,
+    });
+    if (confirm) {
+      const response = await fetch(`/api/product/${_id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const data = await response.json();
+      getBusinessProducts();
+      showSuccessMsg(data.success);
+    }
+  };
+
+  const handleShowNewProduct = () => {
+    setShowNewProduct(!showNewProduct);
   };
 
   useEffect(() => {
@@ -75,35 +111,26 @@ const BusinessProducts: React.FC = () => {
   }, [user, getBusinessProducts]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Products</h2>
-
+    <div>
+      <h2> {user?.business.name} PRODUCTS</h2>
+      <button onClick={handleShowNewProduct}>New product</button>
+      {showNewProduct && <NewProduct />}{" "}
       {loading && (
-        <div className="text-center py-4">
-          <p className="text-gray-600">Loading products...</p>
+        <div>
+          <p>Loading products...</p>
         </div>
       )}
-
-      {!loading && !user?.business && (
-        <div className="text-center py-4">
-          <p className="text-gray-600">No business found for this user.</p>
-        </div>
-      )}
-
       {!loading && products.length === 0 && (
-        <div className="text-center py-4">
-          <p className="text-gray-600">No available products found.</p>
+        <div>
+          <p>No products found.</p>
         </div>
       )}
-
       {!loading && products.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-            <thead className="bg-gray-50">
+        <div>
+          <table>
+            <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
+                <th>Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Price
                 </th>
@@ -140,10 +167,25 @@ const BusinessProducts: React.FC = () => {
                       className={`py-2 px-4 rounded-lg font-semibold transition-colors ${
                         product.available
                           ? "bg-blue-600 hover:bg-blue-700 text-white"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          : "bg-gray-300 text-gray-500 "
                       }`}
                     >
                       Sell
+                    </button>{" "}
+                    ||
+                    <button
+                      onClick={() => editProduct(product._id)}
+                      disabled={!product.available}
+                      className={`py-2 px-4 rounded-lg font-semibold transition-colors`}
+                    >
+                      Edit
+                    </button>{" "}
+                    ||
+                    <button
+                      onClick={() => deleteProduct(product._id)}
+                      className={`py-2 px-4 rounded-lg font-semibold transition-colors`}
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>

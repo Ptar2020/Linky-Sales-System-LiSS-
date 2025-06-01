@@ -13,9 +13,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ msg: "Unauthorized access" });
     }
     await dbConnect();
-    const availableState = await Product.findOne({
-      _id: saleData.product,
-    });
+    const availableState = await Product.findById(saleData.product);
+    if (!availableState.available) {
+      return NextResponse.json({ msg: "Product already sold" });
+    }
     availableState.available = false;
     await availableState.save();
     await new Sale(saleData).save();
@@ -27,22 +28,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// This is to retrieve sales by all sellers of a business
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { _id: string } }
-) {
-  try {
-    const authVerify = await middleware(request);
-    if (!authVerify) {
-      return NextResponse.json({ msg: "Unauthorized access" });
-    }
-    await dbConnect();
-    const businessSales = await Sale.find().populate("seller");
-    return NextResponse.json(businessSales);
-  } catch (error) {
-    return NextResponse.json({
-      msg: error instanceof Error ? error.message : "Error experienced",
-    });
-  }
-}

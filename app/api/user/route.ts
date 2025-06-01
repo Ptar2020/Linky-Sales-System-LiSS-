@@ -1,5 +1,5 @@
 import { dbConnect } from "@/app/database/db";
-import User from "@/app/models/User";
+import { User, About } from "@/app/models";
 import { NextRequest, NextResponse } from "next/server";
 import { middleware } from "./authVerify";
 import { UserInterface } from "@/app/types";
@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ msg: "Unauthorized access" });
     }
     await dbConnect();
-
     // const users: UserInterface[] = await User.find()
     const users = await User.find()
       .select("-password ")

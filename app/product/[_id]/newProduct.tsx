@@ -57,9 +57,9 @@ const NewProduct = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        router.push(`/product/${user?.business?._id}`);
         showSuccessMsg(data.success || "Product created successfully");
         setProductDetails({ name: "", price: 0, description: "" }); // Reset form
-        router.push("/products"); // Redirect to product list
       } else {
         showErrorMsg(data.msg || "Failed to create product");
       }
@@ -76,14 +76,14 @@ const NewProduct = () => {
 
   return (
     <main className="new-product">
-      <h2>Create New Product</h2>
+      <h2>NEW PRODUCT</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           addProduct();
         }}
       >
-        <div>
+        <div style={{ display: "block" }}>
           <label htmlFor="name">Name</label>
           <input
             id="name"

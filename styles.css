@@ -1,9 +1,14 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
 html,
 body {
   height: 100vh;
   background-color: aliceblue;
   margin: auto;
 }
+
 html > body > div {
   padding-right: 20px;
   padding-left: 20px;
@@ -11,32 +16,23 @@ html > body > div {
   margin: auto;
 }
 
-.header {
+.navbar {
   position: sticky;
-  z-index: 1000;
-  display: horizontal;
   top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  color: red;
   margin-bottom: 15px;
-}
-
-.footer {
-  position: fixed;
-  width: 100%;
-  padding: 8px;
-  margin: auto;
-  bottom: 0;
-  border-radius: 5px;
-  /* margin-top: 10px;
-  margin-bottom: 3px; */
-  color: rgb(228, 10, 137) (255, 0, 149);
-  background-color: rgb(209, 18, 177);
+  background-color: #1f2937; 
+  color: white;
+  padding: 1rem;
 }
 
 .nav-link {
   margin-right: 20px;
-  padding: 8px;
+  padding: 12px;
 }
 
 .nav-link:hover {
@@ -50,6 +46,78 @@ a {
   margin: 5px;
 }
 
+/* New styles for responsive menu */
+.navbar-menu {
+  display: none; /* Hidden by default on small screens */
+}
+
+.navbar-menu-open {
+  display: block;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  width: 100%;
+  background-color: #1f2937; 
+  padding: 1rem;
+  z-index: 10;
+}
+
+.navbar-menu .nav-link {
+  display: block;
+  padding: 0.5rem 0; 
+  color: white; 
+}
+
+.hamburger {
+  display: block;
+  cursor: pointer;
+}
+
+.hamburger svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}
+/* Screens smaller than desktop */
+@media (max-width: 768px) {
+  .navbar-menu .nav-link {
+    display: block;
+  }
+}
+/* Desktop styles (≥768px) */
+@media (min-width: 768px) {
+  .navbar-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    position: static;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .navbar-menu .nav-link {
+    display: inline-flex;
+    padding: 0; /* Reset padding for desktop */
+  }
+
+  .hamburger {
+    display: none; /* Hide hamburger on desktop */
+  }
+}
+
+.footer {
+  flex-shrink: 0; /* Prevent footer from shrinking */
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(209, 18, 177);
+  color: black;
+  border-radius: 5px;
+  bottom: 0;
+  position: absolute;
+  text-align: center; /* Center content */
+}
+
 .welcome {
   margin: 5px;
   text-align: center;
@@ -58,17 +126,13 @@ a {
   align-items: center;
   height: 90%;
 }
+
 .superuser {
   text-align: center;
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-  /* width: 100%; */
-  /* margin: auto; */
   justify-content: center;
   align-items: center;
 }
+
 button {
   color: white;
   background-color: rgb(71, 33, 19);
@@ -83,12 +147,12 @@ button:disabled {
 }
 
 .register {
-  /* For user registrattion */
   width: 80%;
   margin: auto;
   padding: 20px;
   font-size: 25px;
 }
+
 .register > form > div > input {
   font-size: 15px;
 }
@@ -127,17 +191,9 @@ textarea {
   width: 60%;
 }
 
-/* .user-edit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 60%;
-} */
 .user-edit > :checked {
   width: 32px;
   height: 40px;
-  /* width: 105%; */
 }
 
 .user-edit > button {
@@ -145,6 +201,7 @@ textarea {
   padding: 13px;
   margin-top: 10px;
 }
+
 .business {
   width: 85%;
   margin: auto;
@@ -153,4 +210,11 @@ textarea {
 
 .about > input {
   margin-bottom: 10px;
+}
+
+.superuserHeader > a {
+  background-color: chartreuse;
+  padding: 8px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { title, description }: AboutInterface = body;
 
     // Validate required fields
-    if (!title?.trim() || !description?.trim()) {
+    if (!title.trim() || !description) {
       return NextResponse.json(
         {
           error: "Missing required fields: title and description are mandatory",
@@ -36,13 +36,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET: Retrieve all About entries
+// GET: Retrieve all About  entries
 export async function GET() {
   try {
     await dbConnect();
-    const aboutEntries: AboutInterface[] = await About.find().lean();
+    const aboutEntries: AboutInterface[] = await About.find();
 
-    return NextResponse.json({ data: aboutEntries }, { status: 200 });
+    return NextResponse.json(aboutEntries, { status: 200 });
   } catch (error) {
     console.error("Error fetching About entries:", error);
     return NextResponse.json(

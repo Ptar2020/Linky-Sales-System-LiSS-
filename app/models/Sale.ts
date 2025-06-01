@@ -2,9 +2,6 @@ import { models, model, Schema } from "mongoose";
 
 const saleSchema = new Schema(
   {
-    // description: {
-    //   type: String,
-    // },
     sale_date: {
       type: Date,
       required: true,
@@ -13,6 +10,7 @@ const saleSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Product",
       unique: true,
+      required: true,
     },
     seller: {
       type: Schema.Types.ObjectId,

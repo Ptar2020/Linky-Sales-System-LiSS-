@@ -6,16 +6,18 @@ import { middleware } from "../../user/authVerify";
 // Get sales per user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { _id: string } }
 ) {
+  console.log(params);
   const authVerify = await middleware(request);
   if (!authVerify) {
     return NextResponse.json({ msg: "Unauthorized response" });
   }
   await dbConnect();
-  const allSalesData = await Sale.find({
-    seller: params.id,
+  // console.log(await Sale.find());
+  const userSalesData = await Sale.find({
+    seller: params._id,
   }).populate("product");
 
-  return NextResponse.json(allSalesData);
+  return NextResponse.json(userSalesData);
 }

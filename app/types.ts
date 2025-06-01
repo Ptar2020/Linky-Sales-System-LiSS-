@@ -3,8 +3,10 @@
 export interface AboutInterface {
   _id: string;
   title: string;
-  description: boolean;
-  last_edited: Date;
+  last_edited?: Date;
+  description: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 export interface BusinessInterface {
